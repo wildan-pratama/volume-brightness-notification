@@ -5,12 +5,23 @@
 # $./volume.sh down
 # $./volume.sh mute
 
+result="Unknown"
+
+if pgrep -x "pulseaudio" > /dev/null; then
+	result="pulseaudio"
+elif pgrep -x "pipewire" > /dev/null; then
+    result="pipewire"
+else
+    notify-send "Sound server: Unknown (Neither PulseAudio nor PipeWire)"
+    exit
+fi
+
 function get_volume {
-    amixer -D pulse get Master | grep '%' | head -n 1 | cut -d '[' -f 2 | cut -d '%' -f 1
+    amixer -D "$result" get Master | grep '%' | head -n 1 | cut -d '[' -f 2 | cut -d '%' -f 1
 }
 
 function is_mute {
-    amixer -D pulse get Master | grep '%' | grep -oE '[^ ]+$' | grep off > /dev/null
+    amixer -D "$result" get Master | grep '%' | grep -oE '[^ ]+$' | grep off > /dev/null
 }
 
 function send_notification {
@@ -40,7 +51,7 @@ $DIR/notify-send.sh "$volume""     " -i "$icon_name" --replace=555 -t 2000
 fi
 bar=$(seq -s "─" $(($volume/5)) | sed 's/[0-9]//g')
 # Send the notification
-$DIR/notify-send.sh "$volume""     ""$bar" -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"$bar" --replace=555
+notify-send "$volume""     ""$bar" -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"$bar" --replace=555
 
 }
 
@@ -60,6 +71,30 @@ case $1 in
     mute)
     	# Toggle mute
 	amixer -D pulse set Master 1+ toggle > /dev/null
+	if is_mute ; then
+    DIR=`dirname "$0"`
+    $DIR/notify-send.sh -i "/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg" --replace=555 -u normal "Mute" -t 2000
+	else
+	    send_notification
+	fi
+	;;
+esac
+case $1 in
+    up)
+	# Set the volume on (if it was muted)
+	amixer -D "$result" set Master on > /dev/null
+	# Up the volume (+ 5%)
+	amixer -D "$result" sset Master 5%+ > /dev/null
+	send_notification
+	;;
+    down)
+	amixer -D "$result" set Master on > /dev/null
+	amixer -D "$result" sset Master 5%- > /dev/null
+	send_notification
+	;;
+    mute)
+    	# Toggle mute
+	amixer -D "$result" set Master 1+ toggle > /dev/null
 	if is_mute ; then
     DIR=`dirname "$0"`
     $DIR/notify-send.sh -i "/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg" --replace=555 -u normal "Mute" -t 2000
