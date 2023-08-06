@@ -1,4 +1,4 @@
-# volume-notification-dunst
+# volume-notification
 This script enables dunst (or any other notification daemon) to send traditional volume notifications (screenshots below).
 Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
