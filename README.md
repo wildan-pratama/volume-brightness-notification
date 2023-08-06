@@ -8,13 +8,16 @@ The script requires the <a href="https://github.com/snwh/faba-icon-theme.git">fa
 ```
 #Debian, Ubuntu, Kali
 apt-get install alsa-utils libnotify-bin
+
 #Alpine
 apk add alsa-utils libnotify
+
 #Arch Linux
 pacman -S alsa-utils libnotify
+
 #CentOS
 yum install alsa-utils libnotify
-yum install alsa-utils libnotify
+
 #Fedora
 #dnf install alsa-utils libnotify
 ```
