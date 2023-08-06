@@ -10,7 +10,7 @@ result="Unknown"
 if pgrep -x "pulseaudio" > /dev/null; then
 	result="pulseaudio"
 elif pgrep -x "pipewire" > /dev/null; then
-    result="pipewire"
+	result="pipewire"
 else
     notify-send "Sound server: Unknown (Neither PulseAudio nor PipeWire)"
     exit
@@ -33,11 +33,11 @@ function send_notification {
 	#bar=$(seq -s "─" $(($volume/5)) | sed 's/[0-9]//g')
 	bar=$(seq -s "─" $(($volume/5)) | sed 's/[0-9]//g')
 	
-	if [ "$volume" = "0" ]; then
+    if [ "$volume" = "0" ]; then
         icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg"
-		notify-send "$volume""      " -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"─" --replace-id=555
+	notify-send "$volume""      " -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"─" --replace-id=555
     elif [  "$volume" -lt "10" ]; then
-	    icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-low.svg"
+	icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-low.svg"
 		notify-send "$volume""     " -i "$icon_name" --replace-id=555 -t 2000
     elif [ "$volume" -lt "30" ]; then
         icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-low.svg"
