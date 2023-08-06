@@ -61,7 +61,7 @@ case $1 in
 	send_notification
 	;;
     down)
-    # Set the volume on (if it was muted)
+	# Set the volume on (if it was muted)
 	amixer -D "$result" set Master on > /dev/null
 	# Down the volume (- 5%)
 	amixer -D "$result" sset Master 5%- > /dev/null
@@ -71,8 +71,8 @@ case $1 in
     # Toggle mute
 	amixer -D "$result" set Master 1+ toggle > /dev/null
 	if is_mute ; then
-    DIR=`dirname "$0"`
-    notify-send -i "/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg" --replace-id=555 -u normal "Mute" -t 2000
+	DIR=`dirname "$0"`
+	notify-send -i "/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg" --replace-id=555 -u normal "Mute" -t 2000
 	else
 	    send_notification
 	fi
