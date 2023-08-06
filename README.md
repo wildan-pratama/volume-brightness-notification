@@ -4,7 +4,7 @@ Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
 
 # installation
-The script requires the <a href="https://github.com/snwh/faba-icon-theme.git">faba icon pack</a> to be (installed otherwise you can using Adwaita icons by uncomment/edit the script) and need some packages installed 
+The script requires the <a href="https://github.com/snwh/faba-icon-theme.git">faba icon pack</a> to be installed (otherwise you can using Adwaita icons by uncomment/edit the script) and need some packages installed 
 ```
 #Debian, Ubuntu, Kali
 apt-get install alsa-utils libnotify-bin
