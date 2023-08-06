@@ -34,21 +34,21 @@ function send_notification {
 	bar=$(seq -s "─" $(($volume/5)) | sed 's/[0-9]//g')
 	
     if [ "$volume" = "0" ]; then
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg"
+        icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-muted-rtl-symbolic.symbolic.png"
 	notify-send "$volume""      " -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"─" --replace-id=555
     elif [  "$volume" -lt "10" ]; then
-	icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-low.svg"
+	icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-low-rtl-symbolic.symbolic.png"
 		notify-send "$volume""     " -i "$icon_name" --replace-id=555 -t 2000
     elif [ "$volume" -lt "30" ]; then
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-low.svg"
+        	icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-low-rtl-symbolic.symbolic.png"
     elif [ "$volume" -lt "70" ]; then
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-medium.svg"
+        	icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-medium-rtl-symbolic.symbolic.png"
     else
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-high.svg"
+        	icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-high-rtl-symbolic.symbolic.png"
 	fi
 	
 	# Send the notification
-	notify-send "$volume""     ""$bar" -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"$bar" --replace-id=555
+	notify-send "$volume""     " -h string:synchronous:"$bar" -i "$icon_name" -t 2000 -h int:value:"$volume" --replace-id=555
 
 }
 
@@ -72,7 +72,7 @@ case $1 in
 	amixer -D "$result" set Master 1+ toggle > /dev/null
 	if is_mute ; then
 	DIR=`dirname "$0"`
-	notify-send -i "/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg" --replace-id=555 -u normal "Mute" -t 2000
+	notify-send -i "/usr/share/icons/Adwaita/32x32/status/audio-volume-muted-rtl-symbolic.symbolic.png" --replace-id=555 -u normal "Mute" -t 2000
 	else
 	    send_notification
 	fi
