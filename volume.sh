@@ -8,7 +8,7 @@
 result="Unknown"
 
 if pgrep -x "pulseaudio" > /dev/null; then
-	result="pulseaudio"
+	result="pulse"
 elif pgrep -x "pipewire" > /dev/null; then
 	result="pipewire"
 else
