@@ -68,7 +68,7 @@ case $1 in
 	send_notification
 	;;
     mute)
-    # Toggle mute
+	# Toggle mute
 	amixer -D "$result" set Master 1+ toggle > /dev/null
 	if is_mute ; then
 	DIR=`dirname "$0"`
