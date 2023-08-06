@@ -34,6 +34,7 @@ function send_notification {
 	bar=$(seq -s "─" $(($volume/5)) | sed 's/[0-9]//g')
 	
     if [ "$volume" = "0" ]; then
+        # comment (#) the Faba icon if you want using adwaita icon 
         # icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg"
         icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-muted-rtl-symbolic.symbolic.png"
         notify-send "$volume""      " -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"─" --replace-id=555
@@ -77,6 +78,7 @@ case $1 in
 	amixer -D "$result" set Master 1+ toggle > /dev/null
 	if is_mute ; then
 	DIR=`dirname "$0"`
+    # comment (#) the Faba icon if you want using adwaita icon 
 	notify-send -i "/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg" --replace-id=555 -u normal "Mute" -t 2000
 	#notify-send -i "/usr/share/icons/Adwaita/32x32/status/audio-volume-muted-rtl-symbolic.symbolic.png" --replace-id=555 -u normal "Mute" -t 2000
 	else
