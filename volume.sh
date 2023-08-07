@@ -16,15 +16,16 @@ else
     exit
 fi
 
-function get_volume {
+get_volume () {
     amixer -D "$result" get Master | grep '%' | head -n 1 | cut -d '[' -f 2 | cut -d '%' -f 1
 }
 
-function is_mute {
+is_mute () {
     amixer -D "$result" get Master | grep '%' | grep -oE '[^ ]+$' | grep off > /dev/null
 }
 
-function send_notification {
+
+send_notification () {
     DIR=`dirname "$0"`
     volume=`get_volume`
     
@@ -61,17 +62,25 @@ case $1 in
     up)
 	# Set the volume on (if it was muted)
 	amixer -D "$result" set Master on > /dev/null
+	
 	# Up the volume (+ 5%)
 	amixer -D "$result" sset Master 5%+ > /dev/null
+	#pactl set-sink-volume @DEFAULT_SINK@ +5%
+	
 	send_notification
 	;;
+	
     down)
 	# Set the volume on (if it was muted)
 	amixer -D "$result" set Master on > /dev/null
+	
 	# Down the volume (- 5%)
 	amixer -D "$result" sset Master 5%- > /dev/null
+	#pactl set-sink-volume @DEFAULT_SINK@ -5%
+	
 	send_notification
 	;;
+	
     mute)
 	# Toggle mute
 	amixer -D "$result" set Master 1+ toggle > /dev/null
@@ -81,6 +90,16 @@ case $1 in
 	#notify-send -i "/usr/share/icons/Adwaita/32x32/status/audio-volume-muted-rtl-symbolic.symbolic.png" --replace-id=555 -u normal "Mute" -t 2000
 	else
 	    send_notification
+	fi
+    ;;
+    
+    mute-mic)
+    mic_status=$(pactl list sources | grep -A 10 RUNNING | grep -A 10 "input" | grep "Mute:" | awk '{print $2}')
+
+	if [[ "$mic_status" == "yes" ]]; then
+    pactl set-source-mute @DEFAULT_SOURCE@ false
+	else
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
 	fi
 	;;
 esac
