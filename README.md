@@ -24,11 +24,13 @@ dnf install alsa-utils libnotify
 # manual
 
 ```
-/path/to/volume.sh up            to increase the volume
+/path/to/volume.sh up            	to increase the volume
 
-/path/to/volume.sh down          to decrease the volume
+/path/to/volume.sh down          	to decrease the volume
 
-/path/to/volume.sh mute          to mute the volume
+/path/to/volume.sh mute          	to mute the volume
+
+/path/to/volume.sh mute-mc          to mute/unmute mic
 ```
 
 Or bind the desired functionality to your key combination of choice.

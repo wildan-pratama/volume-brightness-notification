@@ -88,7 +88,4 @@ case $1 in
 	notify-send -i "$HOME/.local/share/dunst/microphone-mute.png" --replace-id=555 -u normal "Mute" -t 2000
 	fi
 	;;
-    unmute-mic)
-    pactl set-source-mute @DEFAULT_SOURCE@ false
-	;;
 esac
