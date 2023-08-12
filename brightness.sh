@@ -34,7 +34,7 @@ send_notification () {
 	fi
 	
 	# Send the notification
-	notify-send "$brightness""     " -h string:synchronous:"$bar" -i "$icon_name" -t 2000 -h int:value:"$brightness" --replace-id=555
+	notify-send -i "$icon_name" "$brightness $bar" --replace-id=555
 }
 
 get-icon () {

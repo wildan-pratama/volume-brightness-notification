@@ -47,7 +47,8 @@ send_notification () {
 	fi
 	
 	# Send the notification
-	notify-send "$volume""     " -h string:synchronous:"$bar" -i "$icon_name" -t 2000 -h int:value:"$volume" --replace-id=555
+	notify-send -i "$icon_name" "$volume $bar" --replace-id=555
+	
 
 }
 
