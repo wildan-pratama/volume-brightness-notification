@@ -1,10 +1,9 @@
-# volume-notification
-This script enables dunst (or any other notification daemon) to send traditional volume notifications (screenshots below).
-Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a and https://gist.github.com/Blaradox/030f06d165a82583ae817ee954438f2e
-
-
 # installation
-The script requires the <a href="https://github.com/snwh/faba-icon-theme.git">faba icon pack</a> to be installed (otherwise you can using Adwaita icons by uncomment/edit the script) and need some packages installed 
+Copy dunst folder to ~/.local/share/
+```
+cp -r dunst ~/.local/share
+```
+Install package need, if you are using pipeware you must install <b>pipewire-alsa pipewire-pulse</b>
 ```
 #Debian, Ubuntu, Kali
 apt-get install alsa-utils libnotify-bin
