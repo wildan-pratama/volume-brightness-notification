@@ -18,7 +18,7 @@ pacman -S alsa-utils libnotify
 yum install alsa-utils libnotify
 
 #Fedora
-#dnf install alsa-utils libnotify
+dnf install alsa-utils libnotify
 ```
 
 # manual
