@@ -35,22 +35,15 @@ send_notification () {
 	bar=$(seq -s "─" $(($volume/5)) | sed 's/[0-9]//g')
 	
     if [ "$volume" = "0" ]; then
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg"
-        #icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-muted-rtl-symbolic.symbolic.png"
+        icon_name="$HOME/.local/share/dunst/volume-mute.png"
         notify-send "$volume""      " -i "$icon_name" -t 2000 -h int:value:"$volume" -h string:synchronous:"─" --replace-id=555
-    elif [  "$volume" -lt "10" ]; then
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-low.svg"
-        #icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-low-rtl-symbolic.symbolic.png"
+    elif [  "$volume" -lt "30" ]; then
+        icon_name="$HOME/.local/share/dunst/volume-low.png"
         notify-send "$volume""     " -i "$icon_name" --replace-id=555 -t 2000
-    elif [ "$volume" -lt "30" ]; then
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-low.svg"
-        #icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-low-rtl-symbolic.symbolic.png"
-    elif [ "$volume" -lt "70" ]; then
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-medium.svg"
-        #icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-medium-rtl-symbolic.symbolic.png"
+    elif [ "$volume" -lt "60" ]; then
+        icon_name="$HOME/.local/share/dunst/volume-mid.png"
     else
-        icon_name="/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-high.svg"
-        #icon_name="/usr/share/icons/Adwaita/32x32/status/audio-volume-high-rtl-symbolic.symbolic.png"
+        icon_name="$HOME/.local/share/dunst/volume-high.png"
 	fi
 	
 	# Send the notification
@@ -62,44 +55,40 @@ case $1 in
     up)
 	# Set the volume on (if it was muted)
 	amixer -D "$result" set Master on > /dev/null
-	
 	# Up the volume (+ 5%)
 	amixer -D "$result" sset Master 5%+ > /dev/null
 	#pactl set-sink-volume @DEFAULT_SINK@ +5%
-	
 	send_notification
 	;;
-	
     down)
 	# Set the volume on (if it was muted)
 	amixer -D "$result" set Master on > /dev/null
-	
 	# Down the volume (- 5%)
 	amixer -D "$result" sset Master 5%- > /dev/null
 	#pactl set-sink-volume @DEFAULT_SINK@ -5%
-	
 	send_notification
 	;;
-	
     mute)
 	# Toggle mute
 	amixer -D "$result" set Master 1+ toggle > /dev/null
 	if is_mute ; then
 	DIR=`dirname "$0"`
-	notify-send -i "/usr/share/icons/Faba/48x48/notifications/notification-audio-volume-muted.svg" --replace-id=555 -u normal "Mute" -t 2000
+	notify-send -i "$HOME/.local/share/dunst/volume-mute.png" --replace-id=555 -u normal "Mute" -t 2000
 	#notify-send -i "/usr/share/icons/Adwaita/32x32/status/audio-volume-muted-rtl-symbolic.symbolic.png" --replace-id=555 -u normal "Mute" -t 2000
 	else
 	    send_notification
 	fi
     ;;
-    
     mute-mic)
-    mic_status=$(pactl list sources | grep -A 10 RUNNING | grep -A 10 "input" | grep "Mute:" | awk '{print $2}')
-
-	if [[ "$mic_status" == "yes" ]]; then
-    pactl set-source-mute @DEFAULT_SOURCE@ false
-	else
     pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    mic_status=$(pactl list sources | grep -A 10 RUNNING | grep -A 10 "input" | grep "Mute:" | awk '{print $2}')
+    if [[ "$mic_status" == "yes" ]]; then
+    notify-send -i "$HOME/.local/share/dunst/microphone.png" --replace-id=555 -u normal "Mute" -t 2000
+	else
+	notify-send -i "$HOME/.local/share/dunst/microphone-mute.png" --replace-id=555 -u normal "Mute" -t 2000
 	fi
+	;;
+    unmute-mic)
+    pactl set-source-mute @DEFAULT_SOURCE@ false
 	;;
 esac

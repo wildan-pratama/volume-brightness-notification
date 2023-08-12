@@ -20,9 +20,36 @@ send_notification () {
 	#bar=$(seq -s "─" $(($volume/5)) | sed 's/[0-9]//g')
 	bar=$(seq -s "─" $(($brightness/5)) | sed 's/[0-9]//g')
 	
+	if [ "$brightness" -lt "20" ]; then
+        icon_name="$HOME/.local/share/dunst/brightness-20.png"
+        notify-send "$volume""     " -i "$icon_name" --replace-id=555 -t 2000
+    elif [ "$volume" -lt "40" ]; then
+        icon_name="$HOME/.local/share/dunst/brightness-40.png"
+    elif [ "$volume" -lt "60" ]; then
+        icon_name="$HOME/.local/share/dunst/brightness-60.png"
+    elif [ "$volume" -lt "80" ]; then
+        icon_name="$HOME/.local/share/dunst/brightness-80.png"
+    else
+        icon_name="$HOME/.local/share/dunst/brightness-100.png"
+	fi
+	
 	# Send the notification
-	icon_name="/usr/share/icons/Faba/symbolic/status/display-brightness-symbolic.svg"
 	notify-send "$brightness""     " -h string:synchronous:"$bar" -i "$icon_name" -t 2000 -h int:value:"$brightness" --replace-id=555
+}
+
+get-icon () {
+	brightness=$(get_brightness)
+	if [ "$brightness" = "0" ]; then
+        icon_text="󰃝"
+    elif [  "$brightness" -lt "10" ]; then
+        icon_text="󰃞"
+    elif [ "$brightness" -lt "30" ]; then
+        icon_text="󰃟"
+    elif [ "$brightness" -lt "70" ]; then
+        icon_text="󰃠"
+    else
+        icon_text="󰃡"
+	fi
 }
 
 case $1 in
@@ -35,5 +62,9 @@ case $1 in
     # decrease the backlight by 5%
     brightnessctl set 5%-
     send_notification
+    ;;
+  status)
+	get-icon
+	echo '{"text":"󰃠"}'
     ;;
 esac
